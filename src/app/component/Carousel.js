@@ -9,10 +9,10 @@ export default function Carousel(){
        <div id="carouselExample" className="carousel slide">
   <div className="carousel-inner">
     <div className="carousel-item active">
-      <Image src={Slider1} className="d-block w-100" width={2000} height={740} alt="..." />
+      <Image src={Slider1} className="d-block w-100" width={1000} height={740} alt="..." />
     </div>
     <div className="carousel-item">
-      <Image src={Slider2} className="d-block w-100" width={2000} height={740} alt="..." />
+      <Image src={Slider2} className="d-block w-100" width={1000} height={740} alt="..." />
     </div>
   </div>
   <button className="carousel-control-prev" type="button" data-bs-target="#carouselExample" data-bs-slide="prev">
