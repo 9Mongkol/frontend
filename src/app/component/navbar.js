@@ -1,6 +1,35 @@
-import Link from "next/link";
+'use client';
+import Link from 'next/link';
+import { useState, useEffect } from 'react';
+import { useRouter } from 'next/navigation';
 
 export default function Navbar() {
+    const [isLoggedIn, setIsLoggedIn] = useState(false);
+    const router = useRouter();
+
+    useEffect(() => {
+        // Function to check login status
+        const checkLoginStatus = () => {
+            const token = localStorage.getItem('token');
+            setIsLoggedIn(!!token);
+        };
+
+        // Initial check
+        checkLoginStatus();
+
+        // Optional: Add event listener to detect localStorage changes
+        window.addEventListener('storage', checkLoginStatus);
+
+        // Clean up the event listener on component unmount
+        return () => window.removeEventListener('storage', checkLoginStatus);
+    }, []);
+
+    const handleLogout = () => {
+        localStorage.removeItem('token');
+        setIsLoggedIn(false);
+        router.push('/');
+    };
+
     return (
         <nav className="navbar navbar-expand-lg navbar-light bg-light">
             <div className="container-fluid">
@@ -16,28 +45,26 @@ export default function Navbar() {
                         <li className="nav-item">
                             <Link className="nav-link" href="/about">About</Link>
                         </li>
-                        <li className="nav-item dropdown">
-                            <Link className="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">
-                                Service
-                            </Link>
-                            <ul className="dropdown-menu">
-                                <li><Link className="dropdown-item" href="/service1">Service 1</Link></li>
-                                <li><Link className="dropdown-item" href="/service2">Service 2</Link></li>
-                                <li><hr className="dropdown-divider" /></li>
-                                <li><Link className="dropdown-item" href="/MoreService">More Service</Link></li>
-                            </ul>
+                        <li className="nav-item">
+                            <Link className="nav-link" href="/service">Service</Link>
                         </li>
                         <li className="nav-item">
                             <Link className="nav-link" href="/contact">Contact</Link>
                         </li>
                     </ul>
                     <div className="d-flex align-items-center gap-2">
-                        <Link href="/signup">
-                            <button className="btn btn-outline-primary" type="button">Sign Up</button>
-                        </Link>
-                        <Link href="/signin">
-                            <button className="btn btn-outline-success" type="button">Sign In</button>
-                        </Link>
+                        {isLoggedIn ? (
+                            <button className="btn btn-outline-pink" type="button" onClick={handleLogout}>Logout</button>
+                        ) : (
+                            <>
+                                <Link href="/signup">
+                                    <button className="btn btn-outline-pink" type="button">Sign Up</button>
+                                </Link>
+                                <Link href="/signin">
+                                    <button className="btn btn-outline-pink" type="button">Sign In</button>
+                                </Link>
+                            </>
+                        )}
                     </div>
                 </div>
             </div>
