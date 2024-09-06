@@ -34,7 +34,7 @@ export default function LoginPage() {
 
                 router.push('/');
             } else {
-                setError('Login failed: Invalid credentials');
+                setError('Login failed:');
             }
         } catch (error) {
             setError(`Login failed: ${error.message}`);
